@@ -1,175 +1,59 @@
-from queue import Queue
+#User function Template for python3
+# design the class in the most optimal way
+from collections import defaultdict
+class LRUCache:
+    def __init__(self,cap):
+        # cap:  capacity of cache
+        #Intialize all variable
+        #code here
+        self.cap=cap
+        print(cap)
+        self.dic=defaultdict(lambda: int(-1))
+        self.Q=[]
+    #This method works in O(1)
+    def get(self, key):
+        print("\n","        get ",key,end=" ")
+        return (self.dic[key])
 
+    #This method works in O(1)   
+    def set(self, key, value):
+        if len(self.Q)<cap and len(self.Q)>=0:
+            self.Q.append(key)
+            self.dic[key]=value
+        elif(key in self.Q):
+            q=self.Q
+            self.dic[key]=value
+            x=q.pop(q.index(key))
+            q.append(x)
+        else:
+            x=self.Q.pop(0)
+            self.dic[key]=value
+            self.dic[x]=-1
+            self.Q.append(key)
+            
+        print("\nset ",key,value,end=" ")
+#{ 
 
-def createMaze():
-    maze = []
-    maze.append(["#","#", "#", "#", "#", "O","#"])
-    maze.append(["#"," ", " ", " ", "#", " ","#"])
-    maze.append(["#"," ", "#", " ", "#", " ","#"])
-    maze.append(["#"," ", "#", " ", " ", " ","#"])
-    maze.append(["#"," ", "#", "#", "#", " ","#"])
-    maze.append(["#"," ", " ", " ", "#", " ","#"])
-    maze.append(["#","#", "#", "#", "#", "X","#"])
-
-    return maze
-
-def createMaze2():
-    maze = []
-    maze.append(["#","#", "#", "#", "#", "O", "#", "#", "#"])
-    maze.append(["#"," ", " ", " ", " ", " ", " ", " ", "#"])
-    maze.append(["#"," ", "#", "#", " ", "#", "#", " ", "#"])
-    maze.append(["#"," ", "#", " ", " ", " ", "#", " ", "#"])
-    maze.append(["#"," ", "#", " ", "#", " ", "#", " ", "#"])
-    maze.append(["#"," ", "#", " ", "#", " ", "#", " ", "#"])
-    maze.append(["#"," ", "#", " ", "#", " ", "#", "#", "#"])
-    maze.append(["#"," ", " ", " ", " ", " ", " ", " ", "#"])
-    maze.append(["#","#", "#", "#", "#", "#", "#", "X", "#"])
-
-    return maze
-
-
-
-def printMaze(maze, path=""):
-    for x, pos in enumerate(maze[0]):
-        if pos == "O":
-            start = x
-
-    i = start
-    j = 0
-    pos = set()
-    for move in path:
-        if move == "L":
-            i -= 1
-
-        elif move == "R":
-            i += 1
-
-        elif move == "U":
-            j -= 1
-
-        elif move == "D":
-            j += 1
-        pos.add((j, i))
-    
-    for j, row in enumerate(maze):
-        for i, col in enumerate(row):
-            if (j, i) in pos:
-                print("+ ", end="")
-            else:
-                print(col + " ", end="")
+#  Driver Code Starts
+#Initial Template for Python 3
+if __name__ == '__main__':
+    test_cases = 1
+    for cases in range(1):
+        cap = int(input())  # capacity of the cache
+        qry=int(input())  #number of queries
+        a = list(map(str, input().strip().split()))  # parent child info in list
+        lru=LRUCache(cap)
+        i=0
+        q=1
+        while q<=qry:
+            qtyp=a[i]
+            if qtyp=='SET':
+                lru.set(int(a[i+1]),int(a[i+2]))
+                i+=3
+            elif qtyp=='GET':
+                print(lru.get(int(a[i+1])),end=' ')
+                i+=2
+            q+=1
         print()
-        
-
-
-def valid(maze, moves):
-    for x, pos in enumerate(maze[0]):
-        if pos == "O":
-            start = x
-
-    i = start
-    j = 0
-    for move in moves:
-        if move == "L":
-            i -= 1
-
-        elif move == "R":
-            i += 1
-
-        elif move == "U":
-            j -= 1
-
-        elif move == "D":
-            j += 1
-
-        if not(0 <= i < len(maze[0]) and 0 <= j < len(maze)):
-            return False
-        elif (maze[j][i] == "#"):
-            return False
-
-    return True
-
-
-def findEnd(maze, moves):
-    for x, pos in enumerate(maze[0]):
-        if pos == "O":
-            start = x
-
-    i = start
-    j = 0
-    for move in moves:
-        if move == "L":
-            i -= 1
-
-        elif move == "R":
-            i += 1
-
-        elif move == "U":
-            j -= 1
-
-        elif move == "D":
-            j += 1
-
-    if maze[j][i] == "X":
-        print("Found: " + moves)
-        printMaze(maze, moves)
-        return True
-
-    return False
-
-
-# MAIN ALGORITHM
-
-nums = Queue()
-nums.put("")
-add = ""
-maze  = createMaze2()
-
-while not findEnd(maze, add): 
-    add = nums.get()
-    #print(add)
-    for j in ["L", "R", "U", "D"]:
-        put = add + j
-        if valid(maze, put):
-            nums.put(put)
-
-
-
-
-
-
-## TRDL
-# 5 8
-# 1 0 1 1 0
-# 2 0 1 1 1
-# 3 0 1 0 1
-# 4 0 0 1 1
-# 5 0 1 1 0
-# 6 0 1 1 1
-# 7 0 1 0 1
-# 8 0 0 1 1
-# 9 1 1 1 0
-# 10 1 0 0 1
-# 11 0 1 0 0
-# 12 1 0 1 1
-# 13 1 0 1 0
-# 14 1 1 0 0
-# 15 0 0 1 1
-# 16 1 0 1 0
-# 17 1 0 1 0
-# 18 0 1 1 0
-# 19 0 1 0 1
-# 20 1 0 1 1
-# 28 1 0 1 0
-# 29 1 0 1 0
-# 30 1 0 1 0
-# 31 0 1 1 0
-# 32 0 0 1 1
-# 33 1 1 0 0
-# 34 0 0 0 1
-# 35 1 0 0 0
-# 36 1 1 0 0
-# 37 1 0 0 1
-# 38 1 1 0 0
-# 39 0 1 0 1
-# 40 1 0 0 11 1 0 1 0
+# } Driver Code Ends
 
