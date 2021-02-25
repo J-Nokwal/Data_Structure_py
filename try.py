@@ -31,6 +31,7 @@ class LRUCache:
             self.dic[x]=-1
             self.Q.append(key)
             
+            
         print("\nset ",key,value,end=" ")
 #{ 
 
