@@ -39,8 +39,8 @@ ar=[[1,2,3],
     [4,0,5],
     [6,7,8]]
 
-goal=[[1,2,3],
-      [0,4,5],
+goal=[[2,1,3],
+      [4,0,5],
       [6,7,8]]
 
 state=[]
@@ -58,32 +58,34 @@ while(ar!=goal):
     print(ar)
     pos=position(ar)
     
-    # ar_up=up(pos,ar)
+    ar_up=up(pos,ar)
     # print("kkkk",ar_up not in visited)
-    if(up(pos,ar) not in visited):
+    if(ar_up not in visited):
+        print("kkkk",ar_up not in visited)
         # print(ar_up)
-        state.append(up(pos,ar))
-        visited.append(up(pos,ar))
+        state.append(ar_up)
+        visited.append(ar_up)
     
-    # ar_down=down(pos,ar)
-    elif(down(pos,ar) not in visited):
+    ar_down=down(pos,ar)
+    if(ar_down not in visited):
+        print("ooooo",ar_down not in visited)
         #print(ar_down)
-        state.append(down(pos,ar))
-        visited.append(down(pos,ar))
+        state.append(ar_down)
+        visited.append(ar_down)
    
-    # ar_left=left(pos,ar)
-    elif(left(pos,ar) not in visited):
+    ar_left=left(pos,ar)
+    if(ar_left not in visited):
+        print("lllll",ar_left not in visited)
         #print(ar_left)
-        state.append(left(pos,ar))
-        visited.append(left(pos,ar))
+        state.append(ar_left)
+        visited.append(ar_left)
     
-    # ar_right=right(pos,ar)
-    elif(right(pos,ar) not in visited):
+    ar_right=right(pos,ar)
+    if(ar_right not in visited):
+        print("mmmmm",ar_right not in visited)
         # print(ar_right)
-        state.append(right(pos,ar))
-        visited.append(right(pos,ar))
-    else:
-        break
+        state.append(ar_right)
+        visited.append(ar_right)
     
     
 if(ar==goal):

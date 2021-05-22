@@ -1,60 +1,60 @@
-#User function Template for python3
-# design the class in the most optimal way
-from collections import defaultdict
-class LRUCache:
-    def __init__(self,cap):
-        # cap:  capacity of cache
-        #Intialize all variable
-        #code here
-        self.cap=cap
-        print(cap)
-        self.dic=defaultdict(lambda: int(-1))
-        self.Q=[]
-    #This method works in O(1)
-    def get(self, key):
-        print("\n","        get ",key,end=" ")
-        return (self.dic[key])
 
-    #This method works in O(1)   
-    def set(self, key, value):
-        if len(self.Q)<cap and len(self.Q)>=0:
-            self.Q.append(key)
-            self.dic[key]=value
-        elif(key in self.Q):
-            q=self.Q
-            self.dic[key]=value
-            x=q.pop(q.index(key))
-            q.append(x)
+positive_infnity = float('inf')
+def fxn(x,y,s,mincost):
+    print(s)
+    if '?' in s:
+        if 'C?C' in s:
+            if x<y:
+                mincost=fxn(x,y,s.replace('?','C',1),mincost)
+            return mincost
+        elif 'J?J' in s:
+            mincost=fxn(x,y,s.replace('?','J',1),mincost)
+            return mincost
+        # elif 'C??' in s or 'C?J' in s:
+        elif 'C?J' in s:
+            if x<y:
+                mincost=fxn(x,y,s.replace('?','C',1),mincost)
+            else:
+                mincost=fxn(x,y,s.replace('?','J',1),mincost)
+            return mincost
+        # elif 'J??' in s or 'J?C' in s:
+        elif 'J?C' in s:
+            if x>y:
+                mincost=fxn(x,y,s.replace('?','C',1),mincost)
+            else:
+                mincost=fxn(x,y,s.replace('?','J',1),mincost)
+            return mincost
+        # '?' at end
         else:
-            x=self.Q.pop(0)
-            self.dic[key]=value
-            self.dic[x]=-1
-            self.Q.append(key)
-            
-            
-        print("\nset ",key,value,end=" ")
-#{ 
+            mincost=fxn(x,y,s.replace('?','C',1),mincost)
+            mincost=fxn(x,y,s.replace('?','J',1),mincost)
+            return mincost
 
-#  Driver Code Starts
-#Initial Template for Python 3
-if __name__ == '__main__':
-    test_cases = 1
-    for cases in range(1):
-        cap = int(input())  # capacity of the cache
-        qry=int(input())  #number of queries
-        a = list(map(str, input().strip().split()))  # parent child info in list
-        lru=LRUCache(cap)
-        i=0
-        q=1
-        while q<=qry:
-            qtyp=a[i]
-            if qtyp=='SET':
-                lru.set(int(a[i+1]),int(a[i+2]))
-                i+=3
-            elif qtyp=='GET':
-                print(lru.get(int(a[i+1])),end=' ')
-                i+=2
-            q+=1
-        print()
-# } Driver Code Ends
 
+
+    cost=(x*s.count('CJ'))+(y*s.count('JC'))
+    if mincost > cost or mincost==-1:
+        mincost=cost
+    return mincost
+    
+
+
+t = int(input())
+mlist=[]
+
+for i in range(t):
+    x,y,s = input().split()
+    mlist.append([int(x),int(y),s])
+for m in range(len(mlist)):
+    x,y,s=mlist[m]
+    # if s[0:2]=='?C':
+    #     print("Case #{}: {}".format(m+1,fxn(x,y,s.replace('?','C',1),positive_infnity)))
+    # elif s[0:2]=='?J':
+    #     print("Case #{}: {}".format(m+1,fxn(x,y,s.replace('?','J',1),positive_infnity)))
+    if s[0]=='?':
+        a=fxn(x,y,s.replace('?','C',1),positive_infnity)
+        b=fxn(x,y,s.replace('?','J',1),positive_infnity)
+        print("Case #{}: {}".format(m+1,min(a, b)))
+    else:
+        print("Case #{}: {}".format(m+1,fxn(x,y,s,positive_infnity)))
+    

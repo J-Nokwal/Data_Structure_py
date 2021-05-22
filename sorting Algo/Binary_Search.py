@@ -1,4 +1,4 @@
-def binarySearch(arr,x,l,r):
+    def binarySearch(arr,x,l,r):
     if r>=1:
         mid = (l+r)//2
         # mid = l + (r - l) // 2
@@ -13,6 +13,8 @@ def binarySearch(arr,x,l,r):
 
 
 arr = [0, 2, 4, 6, 8, 10, 12, 14, 16,18,20 ] 
+# arr=list(map(int,input.split))
+
 x = 20
   
 # Function call 

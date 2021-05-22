@@ -5,6 +5,7 @@ def search(arr,x,n):
     return -1
 
 arr = [2, 3, 4, 10, 40] 
+# arr=list(map(int,input.split))
 x = 10
 n = len(arr) 
 

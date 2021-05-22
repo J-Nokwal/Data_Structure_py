@@ -97,27 +97,28 @@ def HillClimb(start,end):
         pre_H_Val=temp[a]
         
         crr=temp2[a]
-        prep_seq.append(temp2[a])
+        prep_seq.append(crr)
         count+=1
 
     # print(count,'no. of states needed to be change')
     if crr==end:
         return (True,count,prep_seq)
-    else : return False,0,[]
+    else : return False,count,prep_seq
     
-
+no_of_init_states=0
 while True:
     start=random_state()
     end=[[2,8,1],[0,4,3],[7,6,5]]
     flag,count,prep_seq=HillClimb(start, end)
+    no_of_init_states+=1
     if flag:
         print("In State")
         for i in prep_seq[0]:
             print(i)
         print("{} no. of states needed to be change".format(count),end="\n\n")
-
         for j in prep_seq[1:]:
             for i in j:
                 print(i)
             print() 
         break
+print("no of iteration for this initial state",no_of_init_states)
