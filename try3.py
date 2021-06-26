@@ -1,123 +1,77 @@
-# State search with Best First Search algorithm Heuristic search
-from random import shuffle
+from math import e as exp
+from random import randint
+t=500
+tc=50
 
-def position(s):
-    for i in range(len(s)):
-        for j in range(len(s[i])):
-            if(s[i][j]==0):
-                return [i,j]
+def heuristic1(a,b,c,d) -> int:
+    temp=0
+    if(not a or d): # (¬a u d) 
+        temp+=1
+        print("1st")
+    if (c or b): # (c u b)
+        temp+=1
+        print("2nd")
+    if (not c or not d): # ( ¬c u ¬d)
+        temp+=1
+        print("3rd")
+    if (not d or not b): # ( ¬d u ¬b)
+        temp+=1
+        print("4th")
+    if (not a or not d): # (¬a u ¬d)
+        temp+=1
+        print("5th")
+    return temp
 
-def heuristic_fxn(arr,end):
-    c=0
-    for i in range(3):
-        for j in range(3):
-            if arr[i][j]==end[i][j]:
-                if arr[i][j]==0:
-                    continue
-                c+=1
-    return c
+def heuristic(a,b,c,d) -> int:
+    temp=0
+    if(not a or d): # (¬a u d) 
+        temp+=1
+        # print("1st")
+    if (c or b): # (c u b)
+        temp+=1
+        # print("2nd")
+    if (not c or not d): # ( ¬c u ¬d)
+        temp+=1
+        # print("3rd")
+    if (not d or not b): # ( ¬d u ¬b)
+        temp+=1
+        # print("4th")
+    if (not a or not d): # (¬a u ¬d)
+        temp+=1
+        # print("5th")
+    return temp
 
-def up(pos,ar):
-    s= [i[:] for i in ar]
-    if(pos[0]>0):
-        s[pos[0]-1][pos[1]],s[pos[0]][pos[1]]=s[pos[0]][pos[1]],s[pos[0]-1][pos[1]]
-    return s
+def movegen(a,b,c,d):
+    rand= randint(0,3)
+    # print(a,b,c,d)
+    temp=[a,b,c,d]
+    temp[rand]=  not temp[rand]
+    # print(temp)
+    # print(rand)
+    return temp
+    # [a,b,c,d]=temp
+    # print(a,b,c,d)
 
+def aaa():
+    t=500
+    tc=50
+    a=b=c=d=True
+    oldHeuristic= heuristic(a,b,c,d)
 
-def down(pos,ar):
-    s= [i[:] for i in ar]
-    if(pos[0]<len(s)-1):
-        s[pos[0]+1][pos[1]],s[pos[0]][pos[1]]=s[pos[0]][pos[1]],s[pos[0]+1][pos[1]]
-    return s;
-
-
-def left(pos,ar):
-    s= [i[:] for i in ar]
-    if(pos[1]>0):
-        s[pos[0]][pos[1]-1],s[pos[0]][pos[1]]=s[pos[0]][pos[1]],s[pos[0]][pos[1]-1]
-    return s
-
-
-def right(pos,ar):
-    s= [i[:] for i in ar]
-    if(pos[1]<len(s[0])-1):
-        s[pos[0]][pos[1]+1],s[pos[0]][pos[1]]=s[pos[0]][pos[1]],s[pos[0]][pos[1]+1]
-    return s;
-
-def random_state():
-    arr=list(range(9))
-    shuffle(arr)
-    st=[]
-    for i in range(3):
-        p=[]
-        p.append(arr[(3*i)+0])
-        p.append(arr[(3*i)+1])
-        p.append(arr[(3*i)+2])
-        st.append(p)
-    return st
-
-def HillClimb(start,end):
-    prep_seq=[start]
-    crr=start
-    count=0
-    pre_H_Val=heuristic_fxn(crr,end)
-    while crr != end:
-        temp=[0,0,0,0] # up down left right # stores H value
-        temp2=[0,0,0,0] # stores State
-        # par=heuristic_fxn(crr)
-        pos=position(crr)
-
-        # Try every state
-        t=up(pos,crr)
-        if t != crr:
-            temp[0]=heuristic_fxn(t,end)
-            temp2[0]=t
-            # print(heuristic_fxn(t),end=" 0  ")
-        t=down(pos, crr)
-        if t != crr:
-            temp[1]=heuristic_fxn(t,end)
-            temp2[1]=t
-            # print(heuristic_fxn(t),end=" 1  ")
-        t=left(pos,crr)
-        if t != crr:
-            temp[2]=heuristic_fxn(t,end)
-            temp2[2]=t
-            # print(heuristic_fxn(t),end=" 2  ")
-        t=right(pos,crr)
-        if t != crr:
-            temp[3]=heuristic_fxn(t,end)
-            temp2[3]=t
-            # print(heuristic_fxn(t),end=" 3  ")
+    while(t>=0 or oldHeuristic==5):
+        newState=movegen(a,b,c,d)
+        newHeuristic=heuristic(newState[0],newState[1],newState[2],newState[3])
+        if (newHeuristic-oldHeuristic)>0:
+            [a,b,c,d]=newState
+        else:
+            # print("check move")
+            p=exp**((newHeuristic-oldHeuristic)/t)
+            if (p>0.5):
+                [a,b,c,d]=newState
+        t-=50
+    print(a,b,c,d,"Heuristic is",heuristic(a,b,c,d))
+    if(heuristic(a,b,c,d)<5):
         
-        #Check for valid state
-        a=temp.index(max(temp))
-
-        if temp[a]<=pre_H_Val:  
-            break
-        pre_H_Val=temp[a]
-        
-        crr=temp2[a]
-        prep_seq.append(temp2[a])
-        count+=1
-
-    # print(count,'no. of states needed to be change')
-    if crr==end:
-        return (True,count,prep_seq)
-    else : return False,0,[]
-    
-
-while True:
-    start=random_state()
-    end=[[2,8,1],[0,4,3],[7,6,5]]
-    flag,count,prep_seq=HillClimb(start, end)
-    if flag:
-        print("In State")
-        for i in prep_seq[0]:
-            print(i)
-        print("{} no. of states needed to be change".format(count),end="\n\n")
-
-        for j in prep_seq[1:]:
-            for i in j:
-                print(i)
-            print() 
-        break
+        aaa()
+    else:heuristic1(a,b,c,d)
+aaa()

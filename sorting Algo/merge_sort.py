@@ -29,8 +29,9 @@ def mergeSort(arr):
 
 
 
-arr =[64, 34, 25, 12, 22, 11, 9,76,8,1]
+# arr =[64, 34, 25, 12, 22, 11, 9,76,8,1]
 # arr = [12, 11, 13, 5, 6, 7]
+arr=[18,4]
 mergeSort(arr)
 for i in arr:
     print(i,end=" ")
